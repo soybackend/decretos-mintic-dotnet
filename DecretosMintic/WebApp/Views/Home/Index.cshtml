@@ -1,0 +1,251 @@
+﻿@{
+    Layout = "~/Views/Shared/_FrontLayout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+
+@model SolicitudViewModel
+
+<section>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+            <h1>Generación de Certificado</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+            <div class="row">
+                <div class="col-lg-12 col-md-12  col-sm-12 col-xs-12 formulario">
+                    <form method="post" asp-controller="Personas" asp-action="Solicitar" onsubmit="return validar();">
+
+                        <div class="form-group col-lg-6 col-md-6 medium-input">
+                            <label class="control-label">Tipo de Identificación o NIT</label>
+                            <select class="form-control" asp-for="TipoIdentificacion" asp-items="Model.TiposDeIdentificacion"></select>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 medium-input">
+                            <label class="control-label" id="label_documento">Número de Documento</label>
+                            <input class="form-control" asp-for="NumeroIdentificacion" placeholder="Número de Identificación" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Tipo de Persona</label>
+                            <select class="form-control" asp-for="TipoPersona" asp-items="Model.TiposDePersona"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Nombre ó Razón Social</label>
+                            <input class="form-control" asp-for="Nombre" placeholder="Nombre Completo">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Correo Electrónico</label>
+                            <input class="form-control" asp-for="Correo" placeholder="Correo Electrónico">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Teléfono </label>
+                            <input class="form-control" asp-for="Telefono" placeholder="Teléfono Celular ó Fijo">
+                        </div>
+                        <hr>
+                        <ul class="nav nav-pills mb-3" id="certificados-tab" role="tablist">
+                            <li class="nav-item active" id="li-software">
+                                <a class="nav-link" id="certificado-software-tab" data-toggle="pill" href="#certificado-software" role="tab" aria-controls="pills-home" aria-selected="true">Certificación de Software</a>
+                            </li>
+                            <li class="nav-item" id="li-curso">
+                                <a class="nav-link" id="certificado-curso-tab" data-toggle="pill" href="#certificado-curso" role="tab" aria-controls="pills-profile" aria-selected="false">Certificación de Educación Virtual</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tabContent">
+                            <div class="tab-pane fade in active" id="certificado-software" role="tabpanel" aria-labelledby="certificado-software-tab">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <h3 class="text-left titulo">Certificación de software para el desarrollo de contenidos digitales</h3>
+                                        <p>Para la generación de certificaciones , es necesario que ingreses los siguientes datos:</p>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="software_group">
+                                    <label class="control-label">Digite el nombre del software a certificar </label>
+                                    <select class="form-control js-data-example-ajax">
+                                        <optgroup label="Elige un Producto">
+                                            <option value="" selected="selected"></option>
+                                        </optgroup>
+                                    </select>
+                                    <input asp-for="Producto">
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            <label><input asp-for="VerificarCheck">¿No encontraste el software que buscabas?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="verificar_group" style="display: none;">
+                                    <label class="control-label">Ingresa los datos del software que deseas certificar, para realizar la evaluación correspondiente.</label>
+                                    <input class="form-control" asp-for="NombreProducto" placeholder="Nombre del software a validar"><br>
+                                    <input class="form-control" asp-for="UrlProducto" placeholder="Url del software a validar">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="certificado-curso" role="tabpanel" aria-labelledby="certificado-curso-tab">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <h3 class="text-left titulo">Certificación para servicios de educación virtual.</h3>
+                                        <label class="control-label">Ingresa los datos del curso que deseas certificar, para realizar la evaluación correspondiente.</label>
+                                        <input class="form-control" asp-for="NombreCurso" placeholder="Nombre del curso a validar"><br>
+                                        <input class="form-control" asp-for="UrlCurso" placeholder="Url del curso publicado para validar"><br />
+                                        <h4 class="text-left titulo">Cursos certificados para este usuario</h4>
+                                        <ul id="cursos_certificados">
+                                            <li>No hay cursos certificados para este usuario.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input asp-for="TipoCertificado">
+                        <button class="btn btn-default btn-enviar" type="submit" id="btn_solicitar">Solicitar Certificado</button>
+                    </form><br />
+                    <span>En caso de tener alguna duda, te podemos brindar asesoría. Escríbenos a <a href="mailttcarrillo@mintic.gov.co">tcarrillo@mintic.gov.co</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $('.nav-item').on('click', function () {
+            if ($(this).attr('id') == "li-software") {
+                $("#TipoCertificado").val('software');
+            }
+            else {
+                $("#TipoCertificado").val('curso');
+            }
+        });
+
+        var validar = function () {
+
+            if ($("#TipoCertificado").val() == "software" && $('#VerificarCheck').is(':checked')) {
+                if ($("#software_validar").val() == "") {
+                    alert("Ingresa el nombre de un producto de software.");
+                    return false;
+                }
+                return true;
+            }
+            else {
+                if ($("#TipoCertificado").val() == "software" && $("#Producto").val() == "") {
+                    alert("Elige un producto.");
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        $("#TipoPersona").on("change", function () {
+            const tipoPersona = $(this).val();
+            console.log(tipoPersona);
+            if (tipoPersona === "J") {
+                $("#TipoIdentificacion option[value='CC']").attr('selected', false);
+                $("#TipoIdentificacion option[value='CE']").attr('selected', false);
+                $("#TipoIdentificacion option[value='NIT']").attr('selected', true);
+            }
+            else {
+                $("#TipoIdentificacion option[value='NIT']").attr('selected', false);
+                $("#TipoIdentificacion option[value='CC']").attr('selected', true);
+            }
+        });
+
+        $("#NumeroIdentificacion").on("change", function () {
+
+            //Obtiene la información de la persona
+            $.ajax({
+                url: "Admin/Personas/DatosPersonas?id=" + this.value,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    if (data.length == 1) {
+                        $("#Nombre").val(data[0].nombre);
+                        $("#TipoIdentificacion").val(data[0].tipoIdentificacion);
+                        $("#TipoPersona").val(data[0].tipoPersona);
+                        $("#Correo").val(data[0].correo);
+                        $("#Telefono").val(data[0].telefono);
+                    }
+                }
+            });
+
+            //Obtiene la información de los cursos
+            $.ajax({
+                url: "Admin/Personas/ConsultaCursos?id=" + this.value,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    $("#cursos_certificados").html("");
+                    if (data.length > 0) {
+                        data.forEach(function (curso) {
+                            $("#cursos_certificados").append("<li><a target='_blank' href='/certificado-curso/" + curso.uuid + "'>" + curso.nombre + "</a></li>")
+                        });
+                    }
+                    else {
+                        $("#cursos_certificados").append("<li>No hay cursos certificados para este usuario.</li>")
+                    }
+                }
+            });
+        });
+
+        function formatRepo(repo) {
+            if (repo.loading) return repo.text;
+            var markup = "<div class='select2-result-repository clearfix'>" + repo.nombre + "</div>";
+            return markup;
+        }
+
+        function formatRepoSelection(repo) {
+            $("#Producto").val(repo.id);
+            return repo.nombre || repo.text;
+        }
+
+        $(".js-data-example-ajax").select2({
+            ajax: {
+                url: "Admin/Productos/Consulta",
+                dataType: "json",
+                delay: 250,
+                data: function (params) {
+                    return {
+                        query: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.items,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 4,
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection
+        });
+
+        $("#TipoIdentificacion").on("change", function () {
+            if (this.value != "NIT") {
+                $("#label_documento").html("Número de Documento");
+                $("#NumeroIdentificacion").attr("placeholder", "Número de Documento");
+            }
+            else {
+                $("#label_documento").html("Número de NIT con Dígito de Verificación");
+                $("#NumeroIdentificacion").attr("placeholder", "NIT con Dígito de Verificación");
+            }
+        });
+        $("#VerificarCheck").on("click", function () {
+            if ($('#VerificarCheck').is(":checked")) {
+                $("#verificar_group").css("display", "block");
+                $("#software_group").css("display", "none");
+                $("#btn_solicitar").html("Solicitar Verificación");
+            }
+            else {
+                $("#verificar_group").css("display", "none");
+                $("#software_group").css("display", "block");
+                $("#btn_solicitar").html("Solicitar Certificado");
+            }
+        });
+
+
+    </script>
+}

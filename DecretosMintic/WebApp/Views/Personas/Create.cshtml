@@ -1,0 +1,70 @@
+﻿@model Persona
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Persona</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TipoPersona" class="control-label"></label>
+                <!-- Ensure your ViewBag property isn't null -->
+                @if (ViewBag.TiposPersona != null)
+                {
+                    <!-- Cast the ViewBag to a collection of your specific ErrorCategory class and Iterate through each value in the Items collection of your ViewBag -->
+                    <select asp-for="TipoPersona" class="browser-default custom-select">
+                        @foreach (var tipoPersona in (ViewBag.TiposPersona as List <WebApp.Models.TipoPersona>))
+                            {
+                                <option value="@tipoPersona.Value">@tipoPersona.Key</option>
+                            }
+                    </select>
+                }
+
+
+                <span asp-validation-for="TipoPersona" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoIdentificacion" class="control-label"></label>
+                <input asp-for="TipoIdentificacion" class="form-control" />
+                <span asp-validation-for="TipoIdentificacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumeroIdentificacion" class="control-label"></label>
+                <input asp-for="NumeroIdentificacion" class="form-control" />
+                <span asp-validation-for="NumeroIdentificacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Correo" class="control-label"></label>
+                <input asp-for="Correo" class="form-control" />
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

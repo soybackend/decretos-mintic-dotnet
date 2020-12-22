@@ -1,0 +1,62 @@
+﻿@model WebApp.Models.SolicitudProducto
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SolicitudProducto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+        <dd>
+            @SolicitudProductoEstado.TraerNombreTipo(Model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UUID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UUID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Observaciones)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Producto)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Producto.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Volver al listado</a>
+</div>

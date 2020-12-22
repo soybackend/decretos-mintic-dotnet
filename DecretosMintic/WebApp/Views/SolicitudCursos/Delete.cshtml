@@ -1,0 +1,64 @@
+﻿@model WebApp.Models.SolicitudCurso
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Está seguro que desea eliminar la solicitud</h3>
+<div>
+    <h4>Solicitud de curso</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UUID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UUID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Observaciones)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Curso)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Curso.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver al listado</a>
+    </form>
+</div>

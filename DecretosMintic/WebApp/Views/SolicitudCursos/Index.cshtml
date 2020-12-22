@@ -1,0 +1,110 @@
+﻿@model WebApp.Utils.PaginatedList<SolicitudCurso>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Listado de Solicitudes de Curso</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Crear Nueva</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <div class="row">
+            <div class="col-lg-3">
+                <select name="EstadoFilter" class="browser-default custom-select">
+                    @foreach (var tipoEstado in (ViewBag.TiposEstados as List<WebApp.Models.SolicitudProductoEstado>))
+                    {
+                        if (ViewBag.EstadoFilter == tipoEstado.Key)
+                        {
+                            <option value="@tipoEstado.Key" selected>@tipoEstado.Value</option>
+                        }
+                        else
+                        {
+                            <option value="@tipoEstado.Key">@tipoEstado.Value</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" value="Buscar" class="btn btn-dark" />
+            </div>
+        </div>
+        <p></p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Estado
+            </th>
+            <th>
+                Observaciones
+            </th>
+            <th>
+                Persona
+            </th>
+            <th>
+                Curso
+            </th>
+            <th>
+                Curso Url
+            </th>
+            <th>
+                Fecha de Modificación
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @SolicitudProductoEstado.TraerNombreTipo(item.Estado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observaciones)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Persona.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Curso.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Curso.Url)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updated)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-light @prevDisabled">
+    Anterior
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-light @nextDisabled">
+    Siguiente
+</a>
